@@ -1,0 +1,18 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# IDE and local tooling
+*.userosscache
+*.sln.docstates
+
+# Test results
+TestResults/
+
+# Local environment files
+.env

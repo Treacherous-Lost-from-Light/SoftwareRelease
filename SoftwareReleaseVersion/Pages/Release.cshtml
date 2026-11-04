@@ -1,0 +1,63 @@
+﻿
+@page
+@model SoftwareReleaseVersion.Pages.ReleaseModel
+@{}
+
+<div class="release-container">
+    <h1>Register Release</h1>
+    <p class="release-subtitle">
+       Testo.
+    </p>
+</div>
+
+<form method="post">
+	<input type="text" placeholder="Enter release version" asp-for="Release.Version" />
+
+	<textarea placeholder="Enter release notes" asp-for="Release.Description"></textarea>
+
+	<button type="submit">Register Release</button>
+</form>
+
+<h2>Registered Releases</h2>
+<form method="get">
+    <input type="text" placeholder="Search release..." asp-for="SearchTerm" />
+    <button type="submit">Search</button>
+    <a asp-page="/Release">Clear</a>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Version</th> <th>Description</th> <th>Status</th> <th>Release Date</th> <th>Update Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var release in Model.Releases)
+        {
+            <tr>
+                <td>@release.Version</td>
+                <td>@release.Description</td>
+                <td>@release.Status</td>
+                <td>@release.ReleaseDate</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="id" value="@release.Id" />
+
+                        <select name="status">
+                            <option value="In Development">In Development</option>
+                            <option value="Testing">Testing</option>
+                            <option value="Released">Released</option>
+                        </select>
+                        <button type="submit" asp-page-handler="UpdateStatus">Update</button>
+                    </form>
+                </td>
+                <td>
+					<form method="post">
+						<input type="hidden" name="id" value="@release.Id" />
+						<button type="submit" asp-page-handler="DeleteRelease">Delete</button>
+					</form>
+                </td>
+            </tr>
+          
+        }
+    </tbody>
+</table>
