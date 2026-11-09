@@ -13,5 +13,7 @@ namespace SoftwareReleaseVersion.Models
             public string Status { get; set; } = "In Development";
 
             public DateTime ReleaseDate { get; set; } = DateTime.Today;
-        }
+            
+            public List<ReleaseHistory> ReleaseHistories { get; set; } = new();
+    }
     }

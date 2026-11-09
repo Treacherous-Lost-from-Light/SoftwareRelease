@@ -49,6 +49,40 @@ namespace SoftwareReleaseVersion.Migrations
 
                     b.ToTable("Releases");
                 });
+
+            modelBuilder.Entity("SoftwareReleaseVersion.Models.ReleaseHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ReleaseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReleaseId");
+
+                    b.ToTable("ReleaseHistories");
+                });
+
+            modelBuilder.Entity("SoftwareReleaseVersion.Models.ReleaseHistory", b =>
+                {
+                    b.HasOne("SoftwareReleaseVersion.Models.Release", "Release")
+                        .WithMany("ReleaseHistories")
+                        .HasForeignKey("ReleaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Release");
+                });
+
+            modelBuilder.Entity("SoftwareReleaseVersion.Models.Release", b =>
+                {
+                    b.Navigation("ReleaseHistories");
+                });
 #pragma warning restore 612, 618
         }
     }
