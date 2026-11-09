@@ -16,6 +16,8 @@ namespace SoftwareReleaseVersion.Pages
         public List<Release> Releases { get; set; } = new();
         [BindProperty(SupportsGet = true)]
         public string? SearchTerm { get; set; }
+
+        public List<ReleaseHistory> ReleaseHistories { get; set; } = new();
         public ReleaseModel(AppDbContext context)
         {
             _context = context;
@@ -51,9 +53,18 @@ namespace SoftwareReleaseVersion.Pages
 
             if (release == null)
                 return NotFound();
+            else if (release.Status == status)
+                return NotFound();
+
+            _context.ReleaseHistories.Add(new ReleaseHistory{
+                ReleaseId = release.Id, 
+                Version = release.Version, 
+                Description = release.Description,
+                Status = release.Status,
+                ReleaseDate = release.ReleaseDate});
 
             release.Status = status;
-
+            
             await _context.SaveChangesAsync();
             return RedirectToPage("/Release");
         }
