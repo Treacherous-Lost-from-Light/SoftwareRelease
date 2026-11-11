@@ -31,28 +31,218 @@ body {
 }
 
 
+
 /* Release Management Page */
 
 body {
     background-color: #f4f6fa;
-    color: #212529;
+    color: #1e293b;
 }
 
-/* Main content area */
-.release-container {
+/* Main layout */
+.release-page {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 24px;
 }
 
-    .release-container h1 {
+.release-header {
+    margin-bottom: 28px;
+}
+
+    .release-header h1 {
         font-size: 2rem;
         font-weight: 700;
-        margin-bottom: 8px;
         color: #172554;
+        margin-bottom: 6px;
     }
 
 .release-subtitle {
     color: #64748b;
-    margin-bottom: 28px;
+    margin: 0;
+}
+
+/* Panels */
+.panel {
+    background: #ffffff;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+    .panel h2 {
+        font-size: 1.35rem;
+        font-weight: 650;
+        color: #1e293b;
+        margin-bottom: 20px;
+    }
+
+.history-panel {
+    border-left: 4px solid #64748b;
+}
+
+/* Registration form */
+.release-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+    .release-form input,
+    .release-form textarea,
+    .search-form input {
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        background: #fff;
+    }
+
+    .release-form input {
+        width: 220px;
+    }
+
+    .release-form textarea {
+        width: 300px;
+        min-height: 48px;
+        resize: vertical;
+    }
+
+/* Search */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+    .search-form input {
+        width: 280px;
+    }
+
+/* Buttons */
+.release-page button {
+    border: none;
+    border-radius: 6px;
+    padding: 9px 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.release-form button,
+.search-form button {
+    background-color: #1d4ed8;
+    color: white;
+}
+
+    .release-form button:hover,
+    .search-form button:hover {
+        background-color: #1e40af;
+    }
+
+.update-button {
+    background-color: #2563eb;
+    color: white;
+}
+
+    .update-button:hover {
+        background-color: #1d4ed8;
+    }
+
+.delete-button {
+    background-color: #dc2626;
+    color: white;
+}
+
+    .delete-button:hover {
+        background-color: #b91c1c;
+    }
+
+.search-form a {
+    color: #64748b;
+    text-decoration: none;
+}
+
+    .search-form a:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+    }
+
+/* Tables */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.release-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+    .release-table th {
+        background-color: #f1f5f9;
+        color: #334155;
+        font-weight: 600;
+        text-align: left;
+        padding: 13px 14px;
+        white-space: nowrap;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .release-table td {
+        padding: 13px 14px;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: middle;
+    }
+
+    .release-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .release-table select {
+        padding: 8px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: white;
+    }
+
+    .release-table form {
+        margin: 0;
+    }
+
+    .release-table a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .release-table a:hover {
+            text-decoration: underline;
+        }
+
+/* Smaller screens */
+@media (max-width: 768px) {
+    .release-page {
+        padding: 0 16px;
+    }
+
+    .release-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+        .release-form input,
+        .release-form textarea {
+            width: 100%;
+        }
+
+    .search-form input {
+        width: 100%;
+    }
 }

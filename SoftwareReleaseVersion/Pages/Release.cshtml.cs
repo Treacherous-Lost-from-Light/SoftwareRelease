@@ -17,6 +17,10 @@ namespace SoftwareReleaseVersion.Pages
         [BindProperty(SupportsGet = true)]
         public string? SearchTerm { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string? SearchHistory { get; set; }
+        public int? SelectedReleaseId { get; set; }
+
         public List<ReleaseHistory> ReleaseHistories { get; set; } = new();
         public ReleaseModel(AppDbContext context)
         {
@@ -44,7 +48,34 @@ namespace SoftwareReleaseVersion.Pages
                 );
             }
             Releases = await query.ToListAsync();
-        } 
+        }
+        public async Task<IActionResult> OnGetHistoryAsync(int id) {
+
+            var release = await _context.Releases.FindAsync(id);
+
+            if (release == null)
+                return NotFound();
+
+            SelectedReleaseId = id;
+
+            Releases = await _context.Releases.ToListAsync();
+
+            IQueryable<ReleaseHistory> query = _context.ReleaseHistories;
+
+            query = query.Where(rh => rh.ReleaseId == id);
+
+            if (!string.IsNullOrEmpty(SearchHistory)) 
+            {
+                query = query.Where(rh => 
+                rh.Version.Contains(SearchHistory) || 
+                rh.Description.Contains(SearchHistory));
+            }
+
+            ReleaseHistories = await query.ToListAsync();
+
+            return Page();
+        }
+
         
         //Update
         public async Task<IActionResult> OnPostUpdateStatusAsync(int id, string status)

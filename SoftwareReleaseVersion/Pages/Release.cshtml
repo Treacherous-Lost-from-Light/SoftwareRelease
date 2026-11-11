@@ -2,62 +2,127 @@
 @page
 @model SoftwareReleaseVersion.Pages.ReleaseModel
 @{}
+<main class="release-page">
 
-<div class="release-container">
+<div class="release-header">
     <h1>Register Release</h1>
-    <p class="release-subtitle">
-       Testo.
-    </p>
+    <p class="release-subtitle"> Henlo.</p>
 </div>
 
-<form method="post">
-	<input type="text" placeholder="Enter release version" asp-for="Release.Version" />
+<section class="panel">
+    <h2>Register New Release</h2>
+        <form method="post" class="release-form">
+            <input type="text" placeholder="Enter release version" 
+                asp-for="Release.Version" />
 
-	<textarea placeholder="Enter release notes" asp-for="Release.Description"></textarea>
+            <textarea placeholder="Enter release description" 
+                asp-for="Release.Description"></textarea>
 
-	<button type="submit">Register Release</button>
-</form>
+            <button type="submit">Register Release</button>
+        </form>
+</section>
 
-<h2>Registered Releases</h2>
-<form method="get">
-    <input type="text" placeholder="Search release..." asp-for="SearchTerm" />
+<section class="panel">
+    <h2>Registered Release</h2>
+
+    <form method="get" class="search-form">
+    <input type="text" placeholder="Search release..."
+          asp-for="SearchTerm" />
     <button type="submit">Search</button>
     <a asp-page="/Release">Clear</a>
 </form>
-<table>
-    <thead>
-        <tr>
-            <th>Version</th> <th>Description</th> <th>Status</th> <th>Release Date</th> <th>Update Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var release in Model.Releases)
-        {
-            <tr>
-                <td>@release.Version</td>
-                <td>@release.Description</td>
-                <td>@release.Status</td>
-                <td>@release.ReleaseDate</td>
-                <td>
-                    <form method="post">
-                        <input type="hidden" name="id" value="@release.Id" />
+    
+  <div class="table-wrapper">
+     <table class="release-table">
+         <thead>
+                 <tr>
+                    <th>Version</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Release Date</th>
+                    <th>Update Status</th>
+                    <th>Delete</th>
+                    <th>History</th>
+                 </tr>
+         </thead>
+         <tbody>
+             @foreach (var release in Model.Releases)
+               {
+                <tr>
+                    <td>@release.Version</td>
+                    <td>@release.Description</td>
+                    <td>@release.Status</td>
+                    <td>@release.ReleaseDate</td>
+                    <td>
+                       <form method="post">
+                           <input type="hidden" name="id" value="@release.Id" />
+                           <select name="status">
+                                <option value="In Development">In Development</option>
+                                <option value="Testing">Testing</option>
+                                <option value="Released">Released</option>
+                           </select>
+                           <button type="submit" asp-page-handler="UpdateStatus"
+                           class="update-button">Update</button>
+                       </form>
+                     </td>
+                     <td>
+                       <form method="post">
+                         <input type="hidden" name="id" value="@release.Id" />
+                         <button type="submit" asp-page-handler="DeleteRelease"
+                         class="delete-button">Delete</button>
+                       </form>
+                     </td>
+                     <td>
+                       <a asp-page-handler="History" asp-route-id="@release.Id">
+                           View History
+                       </a>
+                     </td>
+                </tr>
+                }
+          </tbody>
+  </table>
+  </div>
+</section>
+    
+@if (Model.SelectedReleaseId != null)
+{
+  <section class="history-panel">
+    <h2>Release History</h2>
 
-                        <select name="status">
-                            <option value="In Development">In Development</option>
-                            <option value="Testing">Testing</option>
-                            <option value="Released">Released</option>
-                        </select>
-                        <button type="submit" asp-page-handler="UpdateStatus">Update</button>
-                    </form>
-                </td>
-                <td>
-					<form method="post">
-						<input type="hidden" name="id" value="@release.Id" />
-						<button type="submit" asp-page-handler="DeleteRelease">Delete</button>
-					</form>
-                </td>
+       <form method="get" class="search-form"
+        asp-page-handler="History">
+          <input type="hidden" name="id" value="@Model.SelectedReleaseId" />
+          <input type="text" placeholder="Search history..." asp-for="SearchHistory" />
+          <button type="submit">Search</button>
+
+          <a asp-page-handler="History" asp-route-id="@Model.SelectedReleaseId">Clear</a>
+        </form>
+
+      <div class="table-wrapper">
+        <table class="release-table">
+           <thead>
+             <tr>
+               <th>Version</th>
+               <th>Description</th>
+               <th>Status</th>
+               <th>Release Date</th>
             </tr>
-          
-        }
-    </tbody>
-</table>
+           </thead>
+           <tbody>
+             @foreach (var rh in Model.ReleaseHistories)
+             {
+              <tr>
+                 <td>@rh.Version</td>
+                 <td>@rh.Description</td>
+                 <td>@rh.Status</td>
+                 <td>@rh.ReleaseDate.ToString("MMM dd, yyyy")</td>
+              </tr>
+            }
+           </tbody>
+       </table>
+    </div>
+  </section>
+}
+
+
+</main>
